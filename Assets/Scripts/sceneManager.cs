@@ -13,15 +13,16 @@ public class SceneLoad : MonoBehaviour
 
     private void Start()
     {
-        LosePanel.SetActive(false);
-        WinPanel.SetActive(false);
+        if (LosePanel != null) LosePanel.SetActive(false);
+        if (WinPanel != null) WinPanel.SetActive(false);
     }
 
-    public void DisplayLosePanel()
+    public void Update()
     {
         if (Player.transform.position.y <= -10f)
         {
-            LosePanel.SetActive(true);
+            if (LosePanel != null) LosePanel.SetActive(true);
+            Debug.Log("Player fell off");
         }
     }
 
@@ -30,6 +31,9 @@ public class SceneLoad : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             WinPanel.SetActive(true);
+            Debug.Log("Player hit end");
+            Player.GetComponent<playerMovement>().enabled = false;
+            Player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 
